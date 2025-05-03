@@ -1,4 +1,4 @@
-#How to use this program
+# How to use this program
 1. edit the chat.ts prompt value
 2. run command
 ```
@@ -10,7 +10,7 @@ deno --allow-net --allow-read --allow-env --allow-write chat.ts
 ```
 - saves to archive folder, appends to existing file, else creates new
 
-##Notes
+## Notes
 - log.md saves every reponse, msg save last
     - rm log.md and msg.md periodically
 
