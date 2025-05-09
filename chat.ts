@@ -1,4 +1,4 @@
-let prompt = 'Job for caddy.service failed because the control process exited with error code. See "systemctl status caddy.service" and "journalctl -xeu caddy.service" for details. ';
+let prompt = 'can you write me a go web server that writes to the response handler?';
 let test = '';
 let test2 = {};
 

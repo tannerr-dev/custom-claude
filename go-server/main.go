@@ -1,13 +1,3 @@
-
-can you write me a go web server that writes to the response handler?
-**1746245206082**
-
----
-# Simple Go Web Server
-
-Here's a Go web server that writes a response to the client:
-
-```go
 package main
 
 import (
@@ -15,7 +5,24 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"html/template"
 )
+// Basic handler function that writes to the response
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	// Write a header
+	w.Header().Set("Content-Type", "text/html")
+	
+	// Write the response status code
+	w.WriteHeader(http.StatusOK)
+	
+	// Write to the response body
+	tmpl := template.Must(template.ParseFiles("home.html"))
+	err := tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
 
 // Basic handler function that writes to the response
 func helloHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +59,8 @@ func customHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Register handlers
-	http.HandleFunc("/", helloHandler)
+	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/custom", customHandler)
 	
 	// Set up server port
@@ -62,22 +70,3 @@ func main() {
 	fmt.Printf("Server starting on http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
-```
-
-## How to Run This Server
-
-1. Save the code to a file named `server.go`
-2. Run it using: `go run server.go`
-3. Open a web browser and navigate to `http://localhost:8080` 
-4. Try the custom endpoint at `http://localhost:8080/custom?name=YourName`
-
-This example demonstrates:
-- Setting response headers
-- Writing status codes
-- Writing HTML content to the response body
-- Handling different URL paths
-- Processing query parameters
-
-The server will run until you stop it with Ctrl+C in the terminal.
----
-
