@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"log"
+	// "log"
 	"net/http"
 	"time"
-	"html/template"
+	// "html/template"
 )
 // Basic handler function that writes to the response
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	// Write a header
-	w.Header().Set("Content-Type", "text/html")
-	
-	// Write the response status code
-	w.WriteHeader(http.StatusOK)
-	
-	// Write to the response body
-	tmpl := template.Must(template.ParseFiles("home.html"))
-	err := tmpl.Execute(w, nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
+// func homeHandler(w http.ResponseWriter, r *http.Request) {
+// 	// Write a header
+// 	w.Header().Set("Content-Type", "text/html")
+//
+// 	// Write the response status code
+// 	w.WriteHeader(http.StatusOK)
+//
+// 	// Write to the response body
+// 	tmpl := template.Must(template.ParseFiles("../public/index.html"))
+// 	err := tmpl.Execute(w, nil)
+// 	if err != nil {
+// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+// 	}
+// }
 
 
 // Basic handler function that writes to the response
@@ -59,14 +59,16 @@ func customHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Register handlers
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/hello", helloHandler)
-	http.HandleFunc("/custom", customHandler)
+	// http.HandleFunc("/hello", helloHandler)
+	// http.HandleFunc("/custom", customHandler)
 	
-	// Set up server port
-	port := ":8080"
-	
-	// Start the server
-	fmt.Printf("Server starting on http://localhost%s\n", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	// Handler for static files (frontend)
+	http.Handle("/", http.FileServer(http.Dir("public")))
+	fmt.Println("Serving the files")
+
+	const addr = ":8080"
+	err := http.ListenAndServe(addr, nil)
+	if err != nil {
+		fmt.Println("Server failed: %v", err)
+	}
 }
